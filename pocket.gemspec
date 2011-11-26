@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = "curl done right"
   s.description = "curl done right"
   s.authors     = ["Adam Kirk", "Mysterious Trousers, LLC"]
-  s.email       = 'atomkirk@gmail.com'
-  s.files       = ["lib/**"]
-  s.homepage    = 'http://mysterioustrousers.com/'
+  s.email       = 'adam@mysterioustrousers.com'
+  s.files       = Dir["lib/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.homepage    = 'https://github.com/mysterioustrousers/Pocket'
 end
