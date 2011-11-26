@@ -1,5 +1,6 @@
 require "net/http"
 require 'uri'
+require 'json'
 
 class Pocket
   
@@ -11,7 +12,7 @@ class Pocket
       :username   => nil,
       :password   => nil,
       :use_ssl    => false,
-      :body       => nil,
+      :data       => nil,
       :headers    => {
         "Content-Type"  => "application/json",
         "Accept"        => "application/json",
@@ -27,7 +28,7 @@ class Pocket
     _username   = _options[:username]
     _password   = _options[:password]
     _use_ssl    = _options[:use_ssl]
-    _body       = _options[:body]
+    _data       = _options[:data]
     _headers    = _options[:headers]
     _path       = _url.path   ? _url.path         : ""
     _query      = _url.query  ? "?" + _url.query  : ""
@@ -42,25 +43,16 @@ class Pocket
       request = Net::HTTP::Get.new(_api_query, _headers)
     elsif _method == :post
       request = Net::HTTP::Post.new(_api_query, _headers)
-      
-      # add data
-      request.set_form_data(_body)
-      
     elsif _method == :put
       request = Net::HTTP::Put.new(_api_query, _headers)
-      
-      # add data
-      request.set_form_data(_body)
-      
     elsif _method == :delete
       request = Net::HTTP::Delete.new(_api_query, _headers)
-      
-      # add data
-      request.set_form_data(_body)
-      
     else
       request = Net::HTTP::Get.new(_api_query, _headers)
     end
+    
+    # add data (if any)
+    request.body = _data ? _data.to_json : nil
 
     # add authentication (if present)
     if _username && _password
